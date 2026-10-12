@@ -1,0 +1,23 @@
+# Videos and frames are research-use data and must not be republished
+data/*
+!data/.gitkeep
+
+# Raw run outputs; summaries under results/ are committed deliberately
+results/**/raw/
+*.log
+
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+.DS_Store
+.env
+
+# Left behind only if a server could not be stopped
+results/**/server.pid
+
+# Private notes, not part of the project
+NOTES_FOR_ME.md

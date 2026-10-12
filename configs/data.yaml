@@ -1,0 +1,42 @@
+# Which videos to fetch and how to turn them into frames.
+# Archive contents below were checked by listing each zip's central directory (2026-10-12).
+
+source:
+  name: ucf-crime
+  hf_repo: jinmang2/ucf_crime
+  # Pinned commit: the mirror's README describes a move to tar shards, so `main` may lose the zips.
+  revision: 6ea2a8930c6d625539b74804aa6e895c3c9d7dc5
+
+# Frame ranges of the anomaly for the 290 test-set videos. Videos listed here are preferred.
+annotations:
+  remote: UCF_Crimes-Train-Test-Split/Temporal_Anomaly_Annotation_for_Testing_Videos.txt
+  local: annotations/Temporal_Anomaly_Annotation_for_Testing_Videos.txt   # under data/
+
+# Decimal GB (1e9 bytes) for everything under data/. Checked before any download starts.
+# The script refuses any value above 5.0.
+max_total_gb: 3.0
+
+videos_per_label: 12
+
+labels:
+  shoplifting:
+    archive: Anomaly-Videos-Part-4.zip          # 6.56 GB; also holds Stealing, Vandalism
+    pattern: "Anomaly-Videos-Part-4/Shoplifting/*.mp4"
+    anomaly: true
+  fighting:
+    archive: Anomaly-Videos-Part-2.zip          # 6.69 GB; also holds Burglary, Explosion
+    pattern: "Anomaly-Videos-Part-2/Fighting/*.mp4"
+    anomaly: true
+  normal:
+    archive: Normal_Videos_for_Event_Recognition.zip   # 1.07 GB, 50 videos
+    pattern: "Normal_Videos_for_Event_Recognition/*.mp4"
+    anomaly: false
+
+frames:
+  every_sec: 5.0          # one frame every 5 seconds ...
+  skip_sec: 2.0           # ... starting 2 seconds in
+  max_per_video: 12       # if the video is longer, the 12 are spread over its whole length
+  jpeg_quality: 90
+  # Only for anomaly videos that have temporal annotations:
+  event_fraction: 0.5     # share of max_per_video taken from inside the annotated ranges
+  event_min_gap_sec: 1.0  # minimum spacing between frames taken inside a range

@@ -1,0 +1,55 @@
+# Defaults for every benchmark. Each test reads `request` plus its own section.
+
+request:
+  max_tokens: 96
+  temperature: 0
+  timeout_s: 120
+  jpeg_quality: 90        # only used when a frame is re-encoded after downscaling
+  flush_cache: true       # POST /flush_cache before each measured block; recorded in meta if unsupported
+  extra_body: {}          # merged into every request body, e.g. server-specific sampling options
+  text_only: false        # true (or --text-only): send a written scene in place of the frame
+
+json_validity:
+  n_frames: 60            # x all tasks x every mode
+  concurrency: 4
+  # `instructions`: schema = the JSON schema is pasted into the prompt; unconstrained = fields named in words.
+  # `constrained` and `schema_prompt_only` send the same prompt and differ only in the decoder.
+  # `prompt_only` shows what a plain request in words gets.
+  modes:
+    constrained: {response_format: true, instructions: schema}
+    schema_prompt_only: {response_format: false, instructions: schema}
+    prompt_only: {response_format: false, instructions: unconstrained}
+
+prefix_cache:
+  n_frames: 31            # first frame of each ordering is used for the discarded warm-ups
+  warmups: 3              # unmeasured requests at the start of each ordering
+  task: concealment
+  orderings: [shared_first, unique_first]
+  cameras: 8              # camera ids cycle cam-01..cam-08 in the per-request line
+
+concurrency:
+  n_frames: 256           # one question per frame = distinct prompts; more requests than this at a level repeat prompts
+  levels: [1, 2, 4, 8, 16, 32]
+  requests_per_worker: 8
+  min_requests: 32
+
+image_size:
+  n_frames: 61            # one question per frame, rotating over the scored tasks; first frame is warm-up
+  concurrency: 1
+  max_sides: [null, 256, 192, 128]   # null = native size, no re-encoding
+
+prices:
+  # Fill in from the RunPod bill. While this is null, cost output says "not set".
+  gpu_usd_per_hour: null
+  cloud:
+    as_of: "2026-10-12"
+    source: https://ai.google.dev/gemini-api/docs/pricing
+    models:
+      gemini-3.8-flash: {input_usd_per_1m: 0.75, output_usd_per_1m: 3.75}
+      gemini-3.1-flash-lite: {input_usd_per_1m: 0.25, output_usd_per_1m: 1.50}
+    image_tokens:
+      source: https://ai.google.dev/gemini-api/docs/tokens
+      small_max_side: 384     # both sides <= this: one flat charge
+      tokens_per_tile: 258    # the flat charge, and the charge per tile for larger images
+      tile_side: 768
+    chars_per_text_token: 4   # rule of thumb from the same page; prompt text is estimated, not tokenised

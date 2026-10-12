@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "test": "prefix_cache",
+    "variant": "ollama-qwen2.5-3b",
+    "model": "qwen2.5:3b",
+    "base_url": "http://127.0.0.1:11434",
+    "timestamp_utc": "2026-10-12T18:22:44+00:00",
+    "mock": false,
+    "text_only": true,
+    "n_frames": 9,
+    "n_requests": 16,
+    "errors": 0,
+    "labels": {
+      "in_event": 7,
+      "weak": 2
+    },
+    "usage_source": {
+      "server": 16
+    },
+    "cache_flush": "unsupported",
+    "config": {
+      "max_tokens": 96,
+      "temperature": 0,
+      "timeout_s": 300,
+      "jpeg_quality": 90,
+      "flush_cache": true,
+      "extra_body": {},
+      "text_only": true,
+      "n_frames": 9,
+      "task": "concealment",
+      "orderings": [
+        "shared_first",
+        "unique_first"
+      ],
+      "cameras": 8
+    }
+  },
+  "summary": {
+    "orderings": {
+      "shared_first": {
+        "n": 8,
+        "errors": 0,
+        "mean_ttft_s": 0.6538171873708052,
+        "p50_ttft_s": 0.669364957997459,
+        "p95_ttft_s": 0.7623797122942051,
+        "mean_total_s": 3.5333522866221756,
+        "mean_prompt_tokens": 1625.125,
+        "mean_cached_tokens": null
+      },
+      "unique_first": {
+        "n": 8,
+        "errors": 0,
+        "mean_ttft_s": 9.528346047000014,
+        "p50_ttft_s": 9.664901229494717,
+        "p95_ttft_s": 10.157080397805112,
+        "mean_total_s": 12.169416963874028,
+        "mean_prompt_tokens": 1626.125,
+        "mean_cached_tokens": null
+      }
+    },
+    "ttft_ratio_unique_over_shared": {
+      "mean": 14.573410168852165,
+      "p50": 14.438911260621156
+    }
+  }
+}

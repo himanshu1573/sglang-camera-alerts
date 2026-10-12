@@ -1,0 +1,103 @@
+# Model variants served by scripts/serve.py. Shape is fixed by docs/DESIGN.md.
+# Every repo id, size and flag below was checked on 2026-10-12. Sources are in docs/serving-notes.md.
+# Nothing here has run on a GPU yet.
+
+base_model: Qwen/Qwen3-VL-2B-Instruct
+
+# The SGLang release the flags were checked against.
+sglang_version: "0.5.21"
+
+defaults:
+  host: 127.0.0.1        # the client runs on the same pod; pass --host 0.0.0.0 to expose the port
+  port: 30000
+  # Passed to every variant, before the variant's own sglang_args. A later flag wins.
+  sglang_args:
+    - "--grammar-backend"      # constrained JSON decoding; xgrammar is also the documented default
+    - "xgrammar"
+    - "--enable-cache-report"  # adds usage.prompt_tokens_details.cached_tokens (prefix-cache test)
+    - "--enable-metrics"       # Prometheus metrics at /metrics
+    - "--context-length"       # requests are one small frame plus a short prompt
+    - "8192"
+    - "--max-total-tokens"     # same KV-cache pool for every variant, so GPU memory differences
+    - "65536"                  # come from the weights. Remove it to let SGLang size the pool itself.
+
+variants:
+  - id: bf16
+    hf_model: Qwen/Qwen3-VL-2B-Instruct
+    quantization: none
+    status: expected
+    sglang_args: ["--dtype", "bfloat16"]
+    notes: >-
+      Full-precision baseline. Official Qwen checkpoint, Apache-2.0, not gated, 4.26 GB of BF16
+      weights (2.13 B parameters). Qwen3-VL is listed in SGLang's multimodal models and has its
+      own cookbook page with a 2B option.
+      Sources: https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct ,
+      https://docs.sglang.io/cookbook/autoregressive/Qwen/Qwen3-VL
+
+  - id: bf16-noradix
+    hf_model: Qwen/Qwen3-VL-2B-Instruct
+    quantization: none
+    status: expected
+    sglang_args: ["--dtype", "bfloat16", "--disable-radix-cache"]
+    notes: >-
+      Same weights as bf16 with the prefix (radix) cache switched off. Only for the
+      prefix-caching A/B; cached_tokens should stay at zero here.
+      Source: https://docs.sglang.io/docs/advanced_features/server_arguments
+      ("--disable-radix-cache: Disable RadixAttention for prefix caching.")
+
+  - id: awq-w4a16
+    hf_model: cyankiwi/Qwen3-VL-2B-Instruct-AWQ-4bit
+    quantization: awq-w4a16
+    status: expected
+    sglang_args: []
+    notes: >-
+      4-bit AWQ weights, 16-bit activations, made from the exact base model with LLM Compressor
+      (AWQModifier, group size 32, symmetric); the vision tower and lm_head stay BF16. Community
+      upload by cyankiwi, Apache-2.0, not gated, 2.23 GB. It is stored in compressed-tensors
+      format, so SGLang reads the method from config.json; no --quantization flag is passed, as
+      the SGLang docs require for pre-quantized models. The docs' "AWQ works" statement was made
+      for Qwen2.5-VL-7B, not for this checkpoint, so the first GPU run is the real test.
+      Sources: https://huggingface.co/cyankiwi/Qwen3-VL-2B-Instruct-AWQ-4bit ,
+      https://docs.sglang.io/docs/advanced_features/quantization
+
+  - id: fp8
+    hf_model: Qwen/Qwen3-VL-2B-Instruct-FP8
+    quantization: fp8
+    status: expected
+    sglang_args: []
+    notes: >-
+      Official Qwen pre-quantized FP8 checkpoint (block-wise, block size 128), Apache-2.0, not
+      gated, 3.47 GB. The model card recommends vLLM or SGLang and the SGLang Qwen3-VL cookbook
+      offers 2B + FP8 as a launch option. Loaded with no --quantization flag. The cookbook only
+      lists H100-class and newer GPUs; on an RTX 4090 / L4 the FP8 matmul may fall back to a
+      slower kernel, so a speed-up is not guaranteed there.
+      Sources: https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct-FP8 ,
+      https://docs.sglang.io/cookbook/autoregressive/Qwen/Qwen3-VL
+
+  - id: fp8-online
+    hf_model: Qwen/Qwen3-VL-2B-Instruct
+    quantization: fp8-online
+    status: experimental
+    sglang_args: ["--quantization", "fp8"]
+    notes: >-
+      Online quantization: SGLang converts the BF16 base weights to FP8 while loading. The docs
+      show this mode for a text model (Llama 3.1 8B) and recommend offline checkpoints instead;
+      it is not documented for any VLM. Kept to compare with the pre-quantized fp8 variant.
+      (The older --torchao-config flag is gone from the current server arguments.)
+      Source: https://docs.sglang.io/docs/advanced_features/quantization#online-quantization
+
+  - id: autoround-w4a16
+    hf_model: Vishva007/Qwen3-VL-2B-Instruct-W4A16-AutoRound-AWQ
+    quantization: autoround-w4a16
+    status: experimental
+    sglang_args: []
+    notes: >-
+      4-bit weights made from the exact base model with Intel AutoRound (group size 128,
+      symmetric) and exported in AWQ format (quant_method "awq"); vision tower kept FP16.
+      Community upload by Vishva007, Apache-2.0, not gated, 2.17 GB, few downloads. The SGLang
+      docs report that the auto_round:auto_awq format works for Qwen2.5-VL-7B; this exact
+      checkpoint is untested. Its config has zero_point false, so SGLang 0.5.21 cannot use the
+      Marlin kernel for it and may run it slower than 16-bit. It gives a second 4-bit method to
+      compare with awq-w4a16.
+      Sources: https://huggingface.co/Vishva007/Qwen3-VL-2B-Instruct-W4A16-AutoRound-AWQ ,
+      https://docs.sglang.io/docs/advanced_features/quantization

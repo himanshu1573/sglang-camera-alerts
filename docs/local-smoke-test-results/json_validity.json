@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "test": "json_validity",
+    "variant": "ollama-qwen2.5-3b",
+    "model": "qwen2.5:3b",
+    "base_url": "http://127.0.0.1:11434",
+    "timestamp_utc": "2026-10-12T18:20:23+00:00",
+    "mock": false,
+    "text_only": true,
+    "n_frames": 12,
+    "n_requests": 72,
+    "errors": 0,
+    "labels": {
+      "in_event": 10,
+      "weak": 2
+    },
+    "usage_source": {
+      "server": 72
+    },
+    "cache_flush": "unsupported",
+    "config": {
+      "max_tokens": 96,
+      "temperature": 0,
+      "timeout_s": 300,
+      "jpeg_quality": 90,
+      "flush_cache": true,
+      "extra_body": {},
+      "text_only": true,
+      "n_frames": 12,
+      "concurrency": 1,
+      "modes": {
+        "constrained": {
+          "response_format": true,
+          "instructions": "schema"
+        },
+        "prompt_only": {
+          "response_format": false,
+          "instructions": "unconstrained"
+        }
+      }
+    }
+  },
+  "summary": {
+    "modes": {
+      "constrained": {
+        "n": 36,
+        "errors": 0,
+        "strict_json_rate": 1.0,
+        "schema_valid_rate": 1.0,
+        "loose_json_rate": 1.0,
+        "response_format": true,
+        "instructions": "schema",
+        "mean_completion_tokens": 39.94444444444444,
+        "mean_total_s": 3.7880355879723435,
+        "truncated": 0,
+        "accuracy": {
+          "concealment": {
+            "n": 12,
+            "scored": 12,
+            "unscorable": 0,
+            "tp": 3,
+            "fp": 0,
+            "tn": 9,
+            "fn": 0,
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "weak_labels": 2
+          },
+          "aggression": {
+            "n": 12,
+            "scored": 12,
+            "unscorable": 0,
+            "tp": 4,
+            "fp": 0,
+            "tn": 8,
+            "fn": 0,
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "weak_labels": 2
+          }
+        }
+      },
+      "prompt_only": {
+        "n": 36,
+        "errors": 0,
+        "strict_json_rate": 1.0,
+        "schema_valid_rate": 1.0,
+        "loose_json_rate": 1.0,
+        "response_format": false,
+        "instructions": "unconstrained",
+        "mean_completion_tokens": 40.22222222222222,
+        "mean_total_s": 2.734398704887604,
+        "truncated": 0,
+        "accuracy": {
+          "concealment": {
+            "n": 12,
+            "scored": 12,
+            "unscorable": 0,
+            "tp": 1,
+            "fp": 0,
+            "tn": 9,
+            "fn": 2,
+            "accuracy": 0.8333333333333334,
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "weak_labels": 2
+          },
+          "aggression": {
+            "n": 12,
+            "scored": 12,
+            "unscorable": 0,
+            "tp": 4,
+            "fp": 0,
+            "tn": 8,
+            "fn": 0,
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "weak_labels": 2
+          }
+        }
+      }
+    }
+  }
+}
