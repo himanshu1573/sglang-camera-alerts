@@ -1,0 +1,26 @@
+{
+  "available": true,
+  "meta": {
+    "variant": "bf16-noradix",
+    "test": "gpu_mem",
+    "timestamp": "2026-10-13T12:52:19+00:00",
+    "command": "nvidia-smi --query-gpu=memory.used,memory.total,utilization.gpu --format=csv,noheader,nounits",
+    "interval_s": 1.0,
+    "gpu_index": 0,
+    "hf_model": "Qwen/Qwen3-VL-2B-Instruct",
+    "quantization": "none",
+    "base_url": "http://127.0.0.1:30000",
+    "served_model_name": "Qwen/Qwen3-VL-2B-Instruct",
+    "sglang_version": "0.5.21",
+    "gpu_name": "NVIDIA RTX PRO 4500 Blackwell Server Edition",
+    "ended_at": "2026-10-13T12:52:54+00:00",
+    "duration_s": 35.0
+  },
+  "summary": {
+    "idle_mb": 13175.0,
+    "peak_mb": 15321.0,
+    "total_mb": 32623.0,
+    "mean_util_pct": 79.3,
+    "samples": 34
+  }
+}

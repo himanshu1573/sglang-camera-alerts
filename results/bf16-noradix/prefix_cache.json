@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "test": "prefix_cache",
+    "variant": "bf16-noradix",
+    "model": "Qwen/Qwen3-VL-2B-Instruct",
+    "base_url": "http://127.0.0.1:30000",
+    "timestamp_utc": "2026-10-13T12:52:52+00:00",
+    "mock": false,
+    "text_only": false,
+    "n_frames": 31,
+    "n_requests": 60,
+    "errors": 0,
+    "labels": {
+      "in_event": 25,
+      "weak": 6
+    },
+    "usage_source": {
+      "server": 60
+    },
+    "cache_flush": "ok",
+    "config": {
+      "max_tokens": 96,
+      "temperature": 0,
+      "timeout_s": 120,
+      "jpeg_quality": 90,
+      "flush_cache": true,
+      "extra_body": {},
+      "text_only": false,
+      "n_frames": 31,
+      "warmups": 3,
+      "task": "concealment",
+      "orderings": [
+        "shared_first",
+        "unique_first"
+      ],
+      "cameras": 8
+    }
+  },
+  "summary": {
+    "orderings": {
+      "shared_first": {
+        "n": 30,
+        "errors": 0,
+        "mean_ttft_s": 0.0844642544630915,
+        "p50_ttft_s": 0.08401821507140994,
+        "p95_ttft_s": 0.10973748313263058,
+        "mean_total_s": 0.4328356813406572,
+        "mean_prompt_tokens": 1686.0,
+        "mean_cached_tokens": 0.0,
+        "cache_hits": 0
+      },
+      "unique_first": {
+        "n": 30,
+        "errors": 0,
+        "mean_ttft_s": 0.07389217992313206,
+        "p50_ttft_s": 0.07614219991955906,
+        "p95_ttft_s": 0.08264885673997924,
+        "mean_total_s": 0.43420452082064004,
+        "mean_prompt_tokens": 1686.6333333333334,
+        "mean_cached_tokens": 0.0,
+        "cache_hits": 0
+      }
+    },
+    "ttft_ratio_unique_over_shared": {
+      "mean": 0.8748337434911103,
+      "p50": 0.9062582423923576
+    }
+  }
+}

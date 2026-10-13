@@ -1,0 +1,42 @@
+{
+  "variant": "fp8",
+  "hf_model": "Qwen/Qwen3-VL-2B-Instruct-FP8",
+  "quantization": "fp8",
+  "status": "expected",
+  "command": [
+    "/workspace/venvs/sglang/bin/python",
+    "-m",
+    "sglang.launch_server",
+    "--model-path",
+    "Qwen/Qwen3-VL-2B-Instruct-FP8",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "30000",
+    "--grammar-backend",
+    "xgrammar",
+    "--enable-cache-report",
+    "--enable-metrics",
+    "--context-length",
+    "8192",
+    "--max-total-tokens",
+    "65536"
+  ],
+  "command_str": "/workspace/venvs/sglang/bin/python -m sglang.launch_server --model-path Qwen/Qwen3-VL-2B-Instruct-FP8 --host 127.0.0.1 --port 30000 --grammar-backend xgrammar --enable-cache-report --enable-metrics --context-length 8192 --max-total-tokens 65536",
+  "base_url": "http://127.0.0.1:30000",
+  "log_path": "results/fp8/server.log",
+  "pid": 8922,
+  "served_model_name": "Qwen/Qwen3-VL-2B-Instruct-FP8",
+  "sglang_version": "0.5.21",
+  "load_seconds": 295.4,
+  "model_cached_before_start": true,
+  "weights_mem_gb": 2.79,
+  "max_total_num_tokens": 65536,
+  "health_generate_ok": true,
+  "gpu": [
+    "NVIDIA RTX PRO 4500 Blackwell Server Edition, 32623 MiB, 580.178.04"
+  ],
+  "hf_home": "/workspace/.cache/huggingface/",
+  "started_at": "2026-10-13T13:01:18+00:00",
+  "ready_at": "2026-10-13T13:06:15+00:00"
+}

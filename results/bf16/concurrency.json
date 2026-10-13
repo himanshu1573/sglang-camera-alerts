@@ -1,0 +1,166 @@
+{
+  "meta": {
+    "test": "concurrency",
+    "variant": "bf16",
+    "model": "Qwen/Qwen3-VL-2B-Instruct",
+    "base_url": "http://127.0.0.1:30000",
+    "timestamp_utc": "2026-10-13T12:44:49+00:00",
+    "mock": false,
+    "text_only": false,
+    "n_frames": 256,
+    "n_requests": 544,
+    "errors": 0,
+    "labels": {
+      "in_event": 206,
+      "weak": 50
+    },
+    "usage_source": {
+      "server": 544
+    },
+    "cache_flush": "ok",
+    "config": {
+      "max_tokens": 96,
+      "temperature": 0,
+      "timeout_s": 120,
+      "jpeg_quality": 90,
+      "flush_cache": true,
+      "extra_body": {},
+      "text_only": false,
+      "n_frames": 256,
+      "levels": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "requests_per_worker": 8,
+      "min_requests": 32
+    }
+  },
+  "summary": {
+    "levels": [
+      {
+        "concurrency": 1,
+        "n": 32,
+        "errors": 0,
+        "repeated_prompts": 0,
+        "wall_s": 12.294234276050702,
+        "requests_per_s": 2.6028461213185388,
+        "output_tokens_per_s": 156.49612304427714,
+        "p50_total_s": 0.39125709258951247,
+        "p95_total_s": 0.44072260992834345,
+        "p50_ttft_s": 0.03178993344772607,
+        "p95_ttft_s": 0.0387138299876824,
+        "mean_cached_tokens": 1545.0,
+        "cache_hits": 32,
+        "usd_per_1k_alerts": 0.07897337989824234
+      },
+      {
+        "concurrency": 2,
+        "n": 32,
+        "errors": 0,
+        "repeated_prompts": 0,
+        "wall_s": 6.825654874090105,
+        "requests_per_s": 4.688194845811885,
+        "output_tokens_per_s": 282.3172333712344,
+        "p50_total_s": 0.42801874154247344,
+        "p95_total_s": 0.4819770132773556,
+        "p50_ttft_s": 0.03332065406721085,
+        "p95_ttft_s": 0.050774835492484266,
+        "mean_cached_tokens": 1545.0,
+        "cache_hits": 32,
+        "usd_per_1k_alerts": 0.04384535248981491
+      },
+      {
+        "concurrency": 4,
+        "n": 32,
+        "errors": 0,
+        "repeated_prompts": 0,
+        "wall_s": 3.821913101011887,
+        "requests_per_s": 8.372770168826628,
+        "output_tokens_per_s": 504.982700807356,
+        "p50_total_s": 0.4706200003856793,
+        "p95_total_s": 0.5043700222042389,
+        "p50_ttft_s": 0.03706222341861576,
+        "p95_ttft_s": 0.06329315392067655,
+        "mean_cached_tokens": 1545.0,
+        "cache_hits": 32,
+        "usd_per_1k_alerts": 0.02455048346136108
+      },
+      {
+        "concurrency": 8,
+        "n": 64,
+        "errors": 0,
+        "repeated_prompts": 0,
+        "wall_s": 4.566969361854717,
+        "requests_per_s": 14.01366966342174,
+        "output_tokens_per_s": 816.5152214828074,
+        "p50_total_s": 0.539457224891521,
+        "p95_total_s": 0.6717480823514052,
+        "p50_ttft_s": 0.048656734987162054,
+        "p95_ttft_s": 0.22202009141910822,
+        "mean_cached_tokens": 1545.0,
+        "cache_hits": 64,
+        "usd_per_1k_alerts": 0.01466821756845699
+      },
+      {
+        "concurrency": 16,
+        "n": 128,
+        "errors": 0,
+        "repeated_prompts": 0,
+        "wall_s": 6.403173558181152,
+        "requests_per_s": 19.99008754595728,
+        "output_tokens_per_s": 1166.6090153773505,
+        "p50_total_s": 0.7685149321332574,
+        "p95_total_s": 1.1037790124304596,
+        "p50_ttft_s": 0.06619591941125691,
+        "p95_ttft_s": 0.23809852733975279,
+        "mean_cached_tokens": 1545.0,
+        "cache_hits": 128,
+        "usd_per_1k_alerts": 0.010282874203676328
+      },
+      {
+        "concurrency": 32,
+        "n": 256,
+        "errors": 0,
+        "repeated_prompts": 0,
+        "wall_s": 9.433623250108212,
+        "requests_per_s": 27.136975180460322,
+        "output_tokens_per_s": 1548.5036462350172,
+        "p50_total_s": 1.1467896789545193,
+        "p95_total_s": 1.6509520900435746,
+        "p50_ttft_s": 0.07276180502958596,
+        "p95_ttft_s": 0.8363549147034064,
+        "mean_cached_tokens": 1545.3984375,
+        "cache_hits": 256,
+        "usd_per_1k_alerts": 0.0075747408909289035
+      }
+    ],
+    "distinct_prompts": 256,
+    "cost": {
+      "gpu_usd_per_hour": 0.74,
+      "cloud_reference": {
+        "as_of": "2026-10-12",
+        "source": "https://ai.google.dev/gemini-api/docs/pricing",
+        "image_px": "320x240",
+        "image_tokens": 258,
+        "prompt_text_tokens_estimated": 1778,
+        "output_tokens": 58.06617647058823,
+        "models": {
+          "gemini-3.8-flash": {
+            "input_usd_per_1m": 0.75,
+            "output_usd_per_1m": 3.75,
+            "usd_per_1k_alerts": 1.7447481617647058
+          },
+          "gemini-3.1-flash-lite": {
+            "input_usd_per_1m": 0.25,
+            "output_usd_per_1m": 1.5,
+            "usd_per_1k_alerts": 0.5960992647058824
+          }
+        }
+      }
+    }
+  }
+}

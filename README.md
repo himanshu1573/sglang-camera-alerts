@@ -11,9 +11,11 @@ out:
 It measures what each serving optimisation is worth for this workload, and what each quantization
 method costs in accuracy.
 
-> **Status (2026-10-12):** the code is complete and tested on a laptop against a mock server.
-> It has **not yet run on a GPU**, so there are no SGLang results in this repository yet.
-> `results/REPORT.md` is produced by the run described in [RUNPOD.md](RUNPOD.md).
+> **Status (2026-10-13):** all six variants ran once on a rented GPU (RTX PRO 4500 Blackwell,
+> SGLang 0.5.21), 1,403 requests each with no failed request. The numbers are in
+> [results/REPORT.md](results/REPORT.md), produced by the run described in [RUNPOD.md](RUNPOD.md).
+> They are one run on one cloud GPU, and the model missed most real events, so they describe how
+> SGLang serves this workload and not how well the model detects.
 
 ## What it measures
 

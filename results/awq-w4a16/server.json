@@ -1,0 +1,42 @@
+{
+  "variant": "awq-w4a16",
+  "hf_model": "cyankiwi/Qwen3-VL-2B-Instruct-AWQ-4bit",
+  "quantization": "awq-w4a16",
+  "status": "expected",
+  "command": [
+    "/workspace/venvs/sglang/bin/python",
+    "-m",
+    "sglang.launch_server",
+    "--model-path",
+    "cyankiwi/Qwen3-VL-2B-Instruct-AWQ-4bit",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "30000",
+    "--grammar-backend",
+    "xgrammar",
+    "--enable-cache-report",
+    "--enable-metrics",
+    "--context-length",
+    "8192",
+    "--max-total-tokens",
+    "65536"
+  ],
+  "command_str": "/workspace/venvs/sglang/bin/python -m sglang.launch_server --model-path cyankiwi/Qwen3-VL-2B-Instruct-AWQ-4bit --host 127.0.0.1 --port 30000 --grammar-backend xgrammar --enable-cache-report --enable-metrics --context-length 8192 --max-total-tokens 65536",
+  "base_url": "http://127.0.0.1:30000",
+  "log_path": "results/awq-w4a16/server.log",
+  "pid": 7702,
+  "served_model_name": "cyankiwi/Qwen3-VL-2B-Instruct-AWQ-4bit",
+  "sglang_version": "0.5.21",
+  "load_seconds": 325.4,
+  "model_cached_before_start": true,
+  "weights_mem_gb": 2.26,
+  "max_total_num_tokens": 65536,
+  "health_generate_ok": true,
+  "gpu": [
+    "NVIDIA RTX PRO 4500 Blackwell Server Edition, 32623 MiB, 580.178.04"
+  ],
+  "hf_home": "/workspace/.cache/huggingface/",
+  "started_at": "2026-10-13T12:53:01+00:00",
+  "ready_at": "2026-10-13T12:58:28+00:00"
+}

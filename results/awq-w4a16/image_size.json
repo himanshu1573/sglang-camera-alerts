@@ -1,0 +1,203 @@
+{
+  "meta": {
+    "test": "image_size",
+    "variant": "awq-w4a16",
+    "model": "cyankiwi/Qwen3-VL-2B-Instruct-AWQ-4bit",
+    "base_url": "http://127.0.0.1:30000",
+    "timestamp_utc": "2026-10-13T13:01:09+00:00",
+    "mock": false,
+    "text_only": false,
+    "n_frames": 61,
+    "n_requests": 240,
+    "errors": 0,
+    "labels": {
+      "in_event": 49,
+      "weak": 12
+    },
+    "usage_source": {
+      "server": 240
+    },
+    "cache_flush": "ok",
+    "config": {
+      "max_tokens": 96,
+      "temperature": 0,
+      "timeout_s": 120,
+      "jpeg_quality": 90,
+      "flush_cache": true,
+      "extra_body": {},
+      "text_only": false,
+      "n_frames": 61,
+      "concurrency": 1,
+      "max_sides": [
+        null,
+        256,
+        192,
+        128
+      ]
+    }
+  },
+  "summary": {
+    "sizes": [
+      {
+        "max_side": "native",
+        "n": 60,
+        "errors": 0,
+        "actual_px": "320x240",
+        "mean_width": 320.0,
+        "mean_height": 240.0,
+        "mean_prompt_tokens": 1644.5,
+        "mean_ttft_s": 0.0317914734633329,
+        "mean_total_s": 0.22820476175596316,
+        "schema_valid_rate": 0.9833333333333333,
+        "accuracy": {
+          "concealment": {
+            "n": 30,
+            "scored": 29,
+            "unscorable": 1,
+            "tp": 0,
+            "fp": 0,
+            "tn": 25,
+            "fn": 4,
+            "accuracy": 0.8620689655172413,
+            "precision": null,
+            "recall": 0.0,
+            "weak_labels": 6
+          },
+          "aggression": {
+            "n": 30,
+            "scored": 30,
+            "unscorable": 0,
+            "tp": 0,
+            "fp": 0,
+            "tn": 22,
+            "fn": 8,
+            "accuracy": 0.7333333333333333,
+            "precision": null,
+            "recall": 0.0,
+            "weak_labels": 6
+          }
+        }
+      },
+      {
+        "max_side": "256",
+        "n": 60,
+        "errors": 0,
+        "actual_px": "256x192",
+        "mean_width": 256.0,
+        "mean_height": 192.0,
+        "mean_prompt_tokens": 1634.5,
+        "mean_ttft_s": 0.032564474696603916,
+        "mean_total_s": 0.2239146794192493,
+        "schema_valid_rate": 1.0,
+        "accuracy": {
+          "concealment": {
+            "n": 30,
+            "scored": 30,
+            "unscorable": 0,
+            "tp": 0,
+            "fp": 0,
+            "tn": 26,
+            "fn": 4,
+            "accuracy": 0.8666666666666667,
+            "precision": null,
+            "recall": 0.0,
+            "weak_labels": 6
+          },
+          "aggression": {
+            "n": 30,
+            "scored": 30,
+            "unscorable": 0,
+            "tp": 0,
+            "fp": 0,
+            "tn": 22,
+            "fn": 8,
+            "accuracy": 0.7333333333333333,
+            "precision": null,
+            "recall": 0.0,
+            "weak_labels": 6
+          }
+        }
+      },
+      {
+        "max_side": "192",
+        "n": 60,
+        "errors": 0,
+        "actual_px": "192x144",
+        "mean_width": 192.0,
+        "mean_height": 144.0,
+        "mean_prompt_tokens": 1634.5,
+        "mean_ttft_s": 0.033611992393465094,
+        "mean_total_s": 0.22566349062059696,
+        "schema_valid_rate": 1.0,
+        "accuracy": {
+          "concealment": {
+            "n": 30,
+            "scored": 30,
+            "unscorable": 0,
+            "tp": 0,
+            "fp": 0,
+            "tn": 26,
+            "fn": 4,
+            "accuracy": 0.8666666666666667,
+            "precision": null,
+            "recall": 0.0,
+            "weak_labels": 6
+          },
+          "aggression": {
+            "n": 30,
+            "scored": 30,
+            "unscorable": 0,
+            "tp": 0,
+            "fp": 0,
+            "tn": 22,
+            "fn": 8,
+            "accuracy": 0.7333333333333333,
+            "precision": null,
+            "recall": 0.0,
+            "weak_labels": 6
+          }
+        }
+      },
+      {
+        "max_side": "128",
+        "n": 60,
+        "errors": 0,
+        "actual_px": "128x96",
+        "mean_width": 128.0,
+        "mean_height": 96.0,
+        "mean_prompt_tokens": 1634.5,
+        "mean_ttft_s": 0.03274021780428787,
+        "mean_total_s": 0.2277642489178106,
+        "schema_valid_rate": 1.0,
+        "accuracy": {
+          "concealment": {
+            "n": 30,
+            "scored": 30,
+            "unscorable": 0,
+            "tp": 0,
+            "fp": 0,
+            "tn": 26,
+            "fn": 4,
+            "accuracy": 0.8666666666666667,
+            "precision": null,
+            "recall": 0.0,
+            "weak_labels": 6
+          },
+          "aggression": {
+            "n": 30,
+            "scored": 30,
+            "unscorable": 0,
+            "tp": 0,
+            "fp": 0,
+            "tn": 22,
+            "fn": 8,
+            "accuracy": 0.7333333333333333,
+            "precision": null,
+            "recall": 0.0,
+            "weak_labels": 6
+          }
+        }
+      }
+    ]
+  }
+}

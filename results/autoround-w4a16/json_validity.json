@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "test": "json_validity",
+    "variant": "autoround-w4a16",
+    "model": "Vishva007/Qwen3-VL-2B-Instruct-W4A16-AutoRound-AWQ",
+    "base_url": "http://127.0.0.1:30000",
+    "timestamp_utc": "2026-10-13T13:25:27+00:00",
+    "mock": false,
+    "text_only": false,
+    "n_frames": 60,
+    "n_requests": 540,
+    "errors": 0,
+    "labels": {
+      "in_event": 48,
+      "weak": 12
+    },
+    "usage_source": {
+      "server": 540
+    },
+    "cache_flush": "ok",
+    "config": {
+      "max_tokens": 96,
+      "temperature": 0,
+      "timeout_s": 120,
+      "jpeg_quality": 90,
+      "flush_cache": true,
+      "extra_body": {},
+      "text_only": false,
+      "n_frames": 60,
+      "concurrency": 4,
+      "modes": {
+        "constrained": {
+          "response_format": true,
+          "instructions": "schema"
+        },
+        "schema_prompt_only": {
+          "response_format": false,
+          "instructions": "schema"
+        },
+        "prompt_only": {
+          "response_format": false,
+          "instructions": "unconstrained"
+        }
+      }
+    }
+  },
+  "summary": {
+    "modes": {
+      "constrained": {
+        "n": 180,
+        "errors": 0,
+        "strict_json_rate": 1.0,
+        "schema_valid_rate": 1.0,
+        "loose_json_rate": 1.0,
+        "response_format": true,
+        "instructions": "schema",
+        "mean_completion_tokens": 51.96666666666667,
+        "mean_total_s": 0.47385563094479344,
+        "truncated": 0,
+        "accuracy": {
+          "concealment": {
+            "n": 60,
+            "scored": 60,
+            "unscorable": 0,
+            "tp": 0,
+            "fp": 1,
+            "tn": 46,
+            "fn": 13,
+            "accuracy": 0.7666666666666667,
+            "precision": 0.0,
+            "recall": 0.0,
+            "weak_labels": 12
+          },
+          "aggression": {
+            "n": 60,
+            "scored": 60,
+            "unscorable": 0,
+            "tp": 4,
+            "fp": 1,
+            "tn": 43,
+            "fn": 12,
+            "accuracy": 0.7833333333333333,
+            "precision": 0.8,
+            "recall": 0.25,
+            "weak_labels": 12
+          }
+        }
+      },
+      "schema_prompt_only": {
+        "n": 180,
+        "errors": 0,
+        "strict_json_rate": 0.9388888888888889,
+        "schema_valid_rate": 0.0,
+        "loose_json_rate": 0.9388888888888889,
+        "response_format": false,
+        "instructions": "schema",
+        "mean_completion_tokens": 64.5111111111111,
+        "mean_total_s": 0.5826941218472914,
+        "truncated": 12,
+        "accuracy": {
+          "concealment": {
+            "n": 60,
+            "scored": 0,
+            "unscorable": 60,
+            "tp": 0,
+            "fp": 0,
+            "tn": 0,
+            "fn": 0,
+            "accuracy": null,
+            "precision": null,
+            "recall": null,
+            "weak_labels": 12
+          },
+          "aggression": {
+            "n": 60,
+            "scored": 0,
+            "unscorable": 60,
+            "tp": 0,
+            "fp": 0,
+            "tn": 0,
+            "fn": 0,
+            "accuracy": null,
+            "precision": null,
+            "recall": null,
+            "weak_labels": 12
+          }
+        }
+      },
+      "prompt_only": {
+        "n": 180,
+        "errors": 0,
+        "strict_json_rate": 0.4777777777777778,
+        "schema_valid_rate": 0.18888888888888888,
+        "loose_json_rate": 0.4777777777777778,
+        "response_format": false,
+        "instructions": "unconstrained",
+        "mean_completion_tokens": 58.172222222222224,
+        "mean_total_s": 0.5409175295706115,
+        "truncated": 18,
+        "accuracy": {
+          "concealment": {
+            "n": 60,
+            "scored": 46,
+            "unscorable": 14,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 12,
+            "accuracy": 0.7391304347826086,
+            "precision": null,
+            "recall": 0.0,
+            "weak_labels": 12
+          },
+          "aggression": {
+            "n": 60,
+            "scored": 39,
+            "unscorable": 21,
+            "tp": 0,
+            "fp": 0,
+            "tn": 36,
+            "fn": 3,
+            "accuracy": 0.9230769230769231,
+            "precision": null,
+            "recall": 0.0,
+            "weak_labels": 12
+          }
+        }
+      }
+    }
+  }
+}

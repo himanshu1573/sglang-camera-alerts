@@ -376,7 +376,14 @@ def render(results_dir: str | Path) -> str:
         parts.append("No results found.")
         return "\n\n".join(parts) + "\n"
 
-    parts += ["## Variants", variants_table(variants)]
+    intro = (
+        "`load s` is the time from starting the server process until it answers `/health`: "
+        "Python start-up, weight loading and CUDA graph capture together, so it is not the "
+        "weight loading time alone. `GPU idle MB` is the first `nvidia-smi` sample after the "
+        "server is ready and includes the KV pool; `GPU peak MB` is the highest sample during "
+        "the tests and includes memory that PyTorch keeps reserved."
+    )
+    parts += ["## Variants", intro, variants_table(variants)]
     for test, section in SECTIONS.items():
         parts += [f"## {section.title} (`{test}`)", section.intro, section_table(test, variants)]
     cloud = cloud_table(variants)
