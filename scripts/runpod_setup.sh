@@ -5,8 +5,9 @@
 #   source /workspace/camalerts_env.sh
 #   uv run python scripts/serve.py --variant bf16
 #
-# Safe to run again. UNTESTED: written on a laptop without an NVIDIA GPU (2026-10-12).
-# Facts and sources are in docs/serving-notes.md.
+# Safe to run again. Ran on a RunPod pod on 2026-10-13 (RTX PRO 4500 Blackwell, driver 580.178.04).
+# The CUDA compiler step was added after that run from the commands used by hand there, and has
+# not run as part of this script yet. Facts and sources are in docs/serving-notes.md.
 #
 # Settings (environment variables):
 #   SGLANG_VERSION     SGLang release to install                  (default 0.5.21)
@@ -90,6 +91,19 @@ else
 fi
 export SGLANG_PYTHON
 
+# FlashInfer and DeepGEMM compile their kernels on the pod when the server starts. They need an
+# nvcc as new as SGLang's torch (the PyTorch 2.8.0 template ships 12.8; a Blackwell GPU needs
+# 12.9+) and the `ninja` that pip installed next to the SGLang interpreter.
+echo "==> CUDA compiler for SGLang's kernels"
+torch_cuda="$("$SGLANG_PYTHON" -c 'import torch; print(torch.version.cuda)')"
+CUDA_HOME="/usr/local/cuda-$torch_cuda"
+if [[ ! -x "$CUDA_HOME/bin/nvcc" ]]; then
+  echo "    No nvcc for CUDA $torch_cuda; installing it with apt."
+  apt-get update
+  apt-get install -y "cuda-compiler-${torch_cuda/./-}" "cuda-libraries-dev-${torch_cuda/./-}"
+fi
+"$CUDA_HOME/bin/nvcc" --version | tail -n 2
+
 echo "==> 6/7 Writing $ENV_FILE"
 cat > "$ENV_FILE" <<EOF
 # Written by scripts/runpod_setup.sh. Load it with: source $ENV_FILE
@@ -98,6 +112,8 @@ export HF_HOME="$HF_HOME"
 export UV_CACHE_DIR="$UV_CACHE_DIR"
 export UV_PYTHON_INSTALL_DIR="$UV_PYTHON_INSTALL_DIR"
 export SGLANG_PYTHON="$SGLANG_PYTHON"
+export CUDA_HOME="$CUDA_HOME"
+export PATH="$CUDA_HOME/bin:\$PATH:$(dirname "$SGLANG_PYTHON")"
 EOF
 if [[ -f "$HOME/.bashrc" ]] && ! grep -qF "source $ENV_FILE" "$HOME/.bashrc"; then
   echo "source $ENV_FILE" >> "$HOME/.bashrc"

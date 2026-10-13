@@ -1,7 +1,9 @@
 # Running on RunPod
 
-This is the step-by-step list for the GPU run. Nothing in this file has been tested on a real pod
-yet. If a step fails, the "If something goes wrong" part at the end tells you what to try.
+This is the step-by-step list for the GPU run. It was followed once, on 2026-10-13, on an RTX PRO
+4500 Blackwell pod (driver 580.178.04, RunPod PyTorch 2.8.0 template). The setup script was changed
+after that run and has not run again since. If a step fails, the "If something goes wrong" part at
+the end tells you what to try.
 
 ## Before you start (on the laptop)
 
@@ -18,13 +20,17 @@ yet. If a step fails, the "If something goes wrong" part at the end tells you wh
 
 | Setting | What to choose | Why |
 | --- | --- | --- |
-| GPU | RTX 4090 or L4 (24 GB) | The model needs about 4 GB. 24 GB leaves room, and these cards support the fast FP8 path. |
-| CUDA version | A machine with CUDA 13 | SGLang 0.5.21 needs NVIDIA driver 580 or newer. Use *Additional filters -> CUDA Versions*. |
+| GPU | RTX 4090, L4 or RTX PRO 4500 | The model needs about 4 GB. 24 GB or more leaves room, and these cards support the fast FP8 path. |
+| CUDA version | A machine with CUDA 13 | SGLang 0.5.21 needs NVIDIA driver 580 or newer. After you click a GPU, the right side of the deploy page shows "Available CUDA versions". It must list only 13.x. If 12.8 is also listed, you can get a machine with an older driver. |
 | Template | A RunPod PyTorch template | The setup script installs SGLang for you. |
 | Container disk | 50 GB | Room for the software. |
-| Volume disk | 60 GB, mounted at `/workspace` | Keeps the models if the pod restarts. The four models are about 12 GB. |
+| Volume disk | 60 GB "Volume disk", mounted at `/workspace` | Keeps the models if the pod restarts. The four models are about 12 GB. |
 
 Avoid the RTX 3090, A4000, A5000 and A40 if you want the FP8 result: they are an older generation.
+Avoid the "MIG" entries too: they are one slice of a GPU that other people also use.
+
+If the pod still says "Initializing" after 5 minutes and its system log is empty, terminate it and
+deploy again. A stuck pod costs money.
 
 ## 2. Open a terminal and start tmux
 
@@ -54,8 +60,8 @@ PREFETCH_MODELS=1 bash scripts/runpod_setup.sh
 source /workspace/camalerts_env.sh
 ```
 
-This installs the project, installs SGLang in its own environment, and downloads the models. It
-prints the versions at the end. `PREFETCH_MODELS=1` downloads the models now, so that download time
+This installs the project, installs SGLang in its own environment, installs the CUDA compiler that
+SGLang needs to build its GPU code, and downloads the models. It prints the versions at the end. `PREFETCH_MODELS=1` downloads the models now, so that download time
 is not counted as model loading time later.
 
 If you stop the pod and start it again later, run these two commands again first. They are quick the
@@ -115,8 +121,9 @@ To also try the two experimental ones afterwards:
 bash scripts/run_matrix.sh fp8-online autoround-w4a16 2>&1 | tee /workspace/run_experimental.log
 ```
 
-I expect the whole run to take one to two hours. That is a guess, not a measurement. A full variant
-sends about 1,400 requests.
+On the RTX PRO 4500 the four variants took about 32 minutes and all six about 52 minutes. A full
+variant sends 1,403 requests and takes about 9 minutes, of which 4 to 5 minutes is the server
+starting. While the server starts, the screen shows nothing new. That is normal.
 
 Things to know while it runs:
 
@@ -149,8 +156,8 @@ small, a few MB.
 
 Then get the file off the pod. Two ways:
 
-- Download `/workspace/results-full.tgz` with the pod's file browser or Jupyter, if your template
-  has one. I have not checked which templates do.
+- Download `/workspace/results-full.tgz` with Jupyter: in the pod's *Connect* tab, open the port
+  8888 link, right-click the file and choose *Download*. The PyTorch 2.8.0 template has it.
 - Or commit the summary files from the pod (this does not include the `raw` folders):
 
   ```bash
@@ -192,11 +199,13 @@ These are things the documentation suggests but nobody has tested with this setu
 | Problem | What to try |
 | --- | --- |
 | The setup script stops and says the driver is too old | Rent a different machine with CUDA 13. Do not use `ALLOW_OLD_DRIVER=1` unless you want to see the real error. |
+| The server log says `NVCC version must be at least 12.9` or `FlashInfer requires GPUs with sm75 or higher` | The CUDA compiler on the pod is older than SGLang needs. Run step 4 again; it installs the right one. Check with `nvcc --version`. |
+| The server log says `FileNotFoundError: ... 'ninja'` | The SGLang environment is not on `PATH`. Run `source /workspace/camalerts_env.sh`, then `which ninja` must print a path. |
 | A variant does not start | Read `results/<variant>/server_error.json`. It holds the last 60 lines of the server log. |
 | The server is still running after a run | `uv run python scripts/serve.py --variant <variant> --stop`. If that fails, find it with `nvidia-smi` and stop it with `kill <pid>`. |
 | You want to test one thing by hand | Start a server: `uv run python scripts/serve.py --variant bf16 --detach`. Check it: `curl http://127.0.0.1:30000/v1/models`. Run a small test under a different name, so the real results are not overwritten: `uv run python -m camalerts.bench_json --base-url http://127.0.0.1:30000 --variant debug --n 4`. Stop it: `uv run python scripts/serve.py --variant bf16 --stop`. Delete `results/debug` afterwards. |
 | Constrained JSON requests all fail with HTTP 400 | The server rejected part of the JSON schema. Copy the error text; the schema is in `configs/alerts.yaml`. |
-| Out of disk space | The models are in `/workspace/hf`. Check with `df -h /workspace`. |
+| Out of disk space | The models are in the folder that `echo $HF_HOME` prints. Check with `df -h /workspace`. |
 | `uv` or `python` is "not found" after a pod restart | Run step 4 again. |
 
 More detail, with the source for each fact, is in [docs/serving-notes.md](docs/serving-notes.md).
